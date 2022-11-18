@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- font Awesome -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css"
+    />
+
+    <style type="text/css">
+      @import url("https://fonts.googleapis.com/css?family=Inter");
+
+      .textStyle {
+        font-family: "Inter", sans-serif;
+      }
+      .btn {
+        margin-bottom: 3px;
+      }
+      .c1 {
+        margin-top: 20px;
+      }
+      .titleMap {
+        border-bottom: 2px solid green;
+      }
+      .dib {
+        margin-bottom: 30px;
+      }
+    </style>
+
+    <title>Text Editor</title>
+  </head>
+  <body onload="textEditMode();">
+    <div class="container c1">
+      <div class="dib br3 pa3 bw2 shadow-5">
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('bold')"
+        >
+          <i class="fa fa-bold"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('italic')"
+        >
+          <i class="fa fa-italic"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('underline')"
+        >
+          <i class="fa fa-underline"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('strikeThrough')"
+        >
+          <i class="fa fa-strikethrough"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('justifyLeft')"
+        >
+          <i class="fa fa-align-left"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('JustifyRight')"
+        >
+          <i class="fa fa-align-right"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('JustifyFull')"
+        >
+          <i class="fa fa-align-justify"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('cut')"
+        >
+          <i class="fa fa-cut"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('copy')"
+        >
+          <i class="fa fa-copy"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('indent')"
+        >
+          <i class="fa fa-indent"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('outdent')"
+        >
+          <i class="fa fa-dedent"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('subscript')"
+        >
+          <i class="fa fa-subscript"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('superscript')"
+        >
+          <i class="fa fa-superscript"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('undo')"
+        >
+          <i class="fa fa-undo"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('redo')"
+        >
+          <i class="fa fa-repeat"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('insertUnorderedList')"
+        >
+          <i class="fa fa-list-ul"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('insertOrderedList')"
+        >
+          <i class="fa fa-list-ol"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('insertParagraph')"
+        >
+          <i class="fa fa-paragraph"></i>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('insertHorizontalRule')"
+        >
+          HR
+        </button>
+
+        <select
+          onchange="execCommandWithArg('formatBlock', this.value)"
+          class="btn btn-outline-dark btn-sm"
+        >
+          <option value="default">Default</option>
+          <option value="H1">H1</option>
+          <option value="H2">H2</option>
+          <option value="H3">H3</option>
+          <option value="H4">H4</option>
+          <option value="H5">H5</option>
+          <option value="H6">H6</option>
+        </select>
+
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCommandWithArg('createLink', prompt('Enter a URL', 'http://'))"
+        >
+          <i class="fa fa-link"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('unlink')"
+        >
+          <i class="fa fa-unlink"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="toggleSource();"
+        >
+          <i class="fa fa-code"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="toggleEdit();"
+        >
+          Toggle Edit
+        </button>
+        <select
+          onchange="execCommandWithArg('fontName', this.value)"
+          class="btn btn-outline-dark btn-sm"
+        >
+          <option value="Montserrat">Montserrat</option>
+          <option value="Arial">Arial</option>
+          <option value="Comic Sans MS">Comic Sans MS</option>
+          <option value="Courier">Courier</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Verdana">Verdana</option>
+        </select>
+        <select
+          onchange="execCommandWithArg('fontSize', this.value)"
+          class="btn btn-outline-dark btn-sm"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+        </select>
+        color:
+        <input
+          type="color"
+          name=""
+          onchange="execCommandWithArg('foreColor', this.value)"
+          class="btn btn-outline-dark btn-sm"
+        />
+        BG color:
+        <input
+          type="color"
+          name=""
+          onchange="execCommandWithArg('hiliteColor', this.value)"
+          class="btn btn-outline-dark btn-sm"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCommandWithArg('insertImage', prompt('Enter a image URL', ''));"
+        >
+          <i class="fa fa-file-image-o"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-dark btn-sm"
+          onclick="execCmd('selectAll')"
+        >
+          select All
+        </button>
+
+        <iframe
+          src=""
+          name="textEdit"
+          style="
+            width: 1050px;
+            height: 500px;
+            font-family: 'Montserrat', sans-serif;
+          "
+          class="embed-responsive-item"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <script type="text/javascript">
+      var showingSourceCode = false;
+      var isInEditMode = true;
+      function textEditMode() {
+        textEdit.document.designMode = "on";
+      }
+
+      function execCmd(command) {
+        textEdit.document.execCommand(command, false, null);
+      }
+      function execCommandWithArg(command, arg) {
+        textEdit.document.execCommand(command, false, arg);
+      }
+
+      function toggleSource() {
+        if (showingSourceCode) {
+          textEdit.document.getElementsByTagName("body")[0].innerHTML =
+            textEdit.document.getElementsByTagName("body")[0].textContent;
+          showingSourceCode = false;
+        } else {
+          textEdit.document.getElementsByTagName("body")[0].textContent =
+            textEdit.document.getElementsByTagName("body")[0].innerHTML;
+          showingSourceCode = true;
+        }
+      }
+      function toggleEdit() {
+        if (isInEditMode) {
+          textEdit.document.designMode = "off";
+          isInEditMode = false;
+        } else {
+          textEdit.document.designMode = "on";
+          isInEditMode = true;
+        }
+      }
+    </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

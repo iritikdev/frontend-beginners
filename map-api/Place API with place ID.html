@@ -1,0 +1,250 @@
+<!---Google Place API: All data are fetched. This is final code of Place API---->
+<!----Code By: Hrithik Sharma(27 Jan 2019)------>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Place API with place ID</title>
+  <script type="text/javascript">
+    var HttpClient=function () {
+      this.get=function(aUrl, aCallback){
+        var anHttpRequest=new XMLHttpRequest();
+        anHttpRequest.onreadystatechange=function(){
+          if(anHttpRequest.readyState== 4 && anHttpRequest.status==200)
+            aCallback(anHttpRequest.responseText);
+        }
+        anHttpRequest.open("POST", aUrl , async = true , username = null , password = null);
+        anHttpRequest.send("null");
+       
+      }
+    }
+    var theurl='https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4&fields=address_component,adr_address,alt_id,formatted_address,geometry,icon,id,name,permanently_closed,photo,place_id,plus_code,scope,type,url,utc_offset,vicinity,formatted_phone_number,international_phone_number,opening_hours,website,price_level,rating,review&key=AIzaSyC78E6Ay8TlfUbezz7t8LHPfDMcGvkKVcg';
+    var client= new HttpClient();
+      client.get(theurl,function(response)
+      {
+        var response1=JSON.parse(response);
+        console.log(response1);
+        document.getElementById('Status').innerHTML=response1.status;
+        document.getElementById('formatted_address').innerHTML=response1.result.formatted_address;
+        document.getElementById('formatted_phone_number').innerHTML=response1.result.formatted_phone_number;
+        document.getElementById('international_phone_number').innerHTML=response1.result.international_phone_number;
+        document.getElementById('name').innerHTML=response1.result.name;
+        document.getElementById('opening_hours').innerHTML=response1.result.opening_hours;
+        document.getElementById('weekday_text0').innerHTML=response1.result.opening_hours.weekday_text[0];
+        document.getElementById('weekday_text1').innerHTML=response1.result.opening_hours.weekday_text[1];
+        document.getElementById('weekday_text2').innerHTML=response1.result.opening_hours.weekday_text[2];
+        document.getElementById('weekday_text3').innerHTML=response1.result.opening_hours.weekday_text[3];
+        document.getElementById('weekday_text4').innerHTML=response1.result.opening_hours.weekday_text[4];
+        document.getElementById('weekday_text5').innerHTML=response1.result.opening_hours.weekday_text[5];
+        document.getElementById('weekday_text6').innerHTML=response1.result.opening_hours.weekday_text[6];
+        document.getElementById('rating').innerHTML=response1.result.rating; 
+
+        document.getElementById('reviews1').innerHTML=response1.result.reviews[0].author_name;
+        document.getElementById('reviews2').innerHTML=response1.result.reviews[0].text;
+        document.getElementById('reviews3').innerHTML=response1.result.reviews[0].rating;
+        document.getElementById('reviews4').innerHTML=response1.result.reviews[0].relative_time_description;
+
+        document.getElementById('reviews5').innerHTML=response1.result.reviews[1].author_name;
+        document.getElementById('reviews6').innerHTML=response1.result.reviews[1].text;
+        document.getElementById('reviews7').innerHTML=response1.result.reviews[1].rating;
+        document.getElementById('reviews7').innerHTML=response1.result.reviews[1].relative_time_description;
+
+        document.getElementById('reviews9').innerHTML=response1.result.reviews[2].author_name;
+        document.getElementById('reviews10').innerHTML=response1.result.reviews[2].text;
+        document.getElementById('reviews11').innerHTML=response1.result.reviews[2].rating;
+        document.getElementById('reviews12').innerHTML=response1.result.reviews[2].relative_time_description;
+
+        document.getElementById('reviews13').innerHTML=response1.result.reviews[3].author_name;
+        document.getElementById('reviews14').innerHTML=response1.result.reviews[3].text;
+        document.getElementById('reviews15').innerHTML=response1.result.reviews[3].rating;
+        document.getElementById('reviews16').innerHTML=response1.result.reviews[3].relative_time_description;
+
+        document.getElementById('reviews17').innerHTML=response1.result.reviews[4].author_name;
+        document.getElementById('reviews18').innerHTML=response1.result.reviews[4].text;
+        document.getElementById('reviews19').innerHTML=response1.result.reviews[4].rating;
+        document.getElementById('reviews20').innerHTML=response1.result.reviews[4].relative_time_description;
+
+        document.getElementById('url').innerHTML=response1.result.url;
+
+        document.getElementById('website').innerHTML=response1.result.website;
+//Creating a Arrray for storing the Reviewer'profile image.-------------------------------------------
+        var ritik=[];
+        for(let j=0;j<=4;j++){
+          ritik.push(response1.result.reviews[j].profile_photo_url);}
+          //alert(ritik[0])
+
+        var re_img1 = new Image();
+        re_img1.onload=function()
+          {document.getElementById('reviews_pic1').innerHTML = '<img src="'+re_img1.src+'"/>';};
+          re_img1.src=ritik[0]; 
+
+          var re_img2 = new Image();
+        re_img2.onload=function()
+          {document.getElementById('reviews_pic2').innerHTML = '<img src="'+re_img2.src+'"/>';};
+          re_img2.src=ritik[1]; 
+
+          var re_img3 = new Image();
+        re_img3.onload=function()
+          {document.getElementById('reviews_pic3').innerHTML = '<img src="'+re_img3.src+'"/>';};
+          re_img3.src=ritik[2]; 
+
+          var re_img4 = new Image();
+        re_img4.onload=function()
+          {document.getElementById('reviews_pic4').innerHTML = '<img src="'+re_img4.src+'"/>';};
+          re_img4.src=ritik[3]; 
+
+          var re_img5 = new Image();
+        re_img5.onload=function()
+          {document.getElementById('reviews_pic5').innerHTML = '<img src="'+re_img5.src+'"/>';};
+          re_img5.src=ritik[4]; 
+
+//********************************************************************************************************
+
+       var array=[];
+        for(let i=0;i<=9;i++){
+        var x=response1.result.photos[i].photo_reference;
+        array.push('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + x +'&key=AIzaSyC78E6Ay8TlfUbezz7t8LHPfDMcGvkKVcg');}
+
+
+       var img = new Image();
+        img.onload=function()
+          {document.getElementById('pic').innerHTML = '<img src="'+img.src+'"/>';};
+          img.src=array[0]; 
+
+         var img1 = new Image();
+        img1.onload=function()
+          {document.getElementById('pic1').innerHTML = '<img src="'+img1.src+'"/>';};
+          img1.src=array[1]; 
+
+         var img2 = new Image();
+        img2.onload=function()
+          {document.getElementById('pic2').innerHTML = '<img src="'+img2.src+'"/>';};
+          img2.src=array[2]; 
+
+         var img3 = new Image();
+        img3.onload=function()
+          {document.getElementById('pic3').innerHTML = '<img src="'+img3.src+'"/>';};
+          img3.src=array[3]; 
+
+
+         var img4 = new Image();
+        img4.onload=function()
+          {document.getElementById('pic4').innerHTML = '<img src="'+img4.src+'"/>';};
+          img4.src=array[4]; 
+ 
+         var img5 = new Image();
+        img5.onload=function()
+          {document.getElementById('pic5').innerHTML = '<img src="'+img5.src+'"/>';};
+          img5.src=array[5];      
+          
+ 
+         var img6 = new Image();
+        img6.onload=function()
+          {document.getElementById('pic6').innerHTML = '<img src="'+img6.src+'"/>';};
+          img6.src=array[6];            
+       
+ 
+         var img7 = new Image();
+        img7.onload=function()
+          {document.getElementById('pic7').innerHTML = '<img src="'+img7.src+'"/>';};
+          img7.src=array[7];       
+         
+
+        
+        var img8 = new Image();
+        img8.onload=function()
+          {document.getElementById('pic8').innerHTML = '<img src="'+img8.src+'"/>';};
+          img8.src=array[8]; 
+
+        var img9 = new Image();
+        img9.onload=function()
+          {document.getElementById('pic9').innerHTML = '<img src="'+img9.src+'"/>';};
+          img9.src=array[9]; 
+         
+      });
+
+
+  </script>
+</head>
+<body>
+
+    <div class="nature" id="pic"></div>
+    <div class="nature" id="pic1"></div>
+    <div class="nature" id="pic2"></div>
+    <div class="nature" id="pic3"></div>
+    <div class="nature" id="pic4"></div>
+    <div class="nature" id="pic5"></div>
+    <div class="nature" id="pic6"></div>
+    <div class="nature" id="pic7"></div>
+    <div class="nature" id="pic8"></div>
+    <div class="nature" id="pic9"></div>
+    Status:<div id="Status"></div>
+    formatted_address: <div id="formatted_address"></div>
+    formatted_phone_number: <div id="formatted_phone_number"></div>
+    international_phone_number: <div id="international_phone_number"></div>
+    name: <div id="name"></div>
+    opening_hours: <div id="opening_hours"></div>
+    weekday_text: <div id="weekday_text0"></div>
+    <div id="weekday_text1"></div>
+    <div id="weekday_text2"></div>
+    <div id="weekday_text3"></div>
+    <div id="weekday_text4"></div>
+    <div id="weekday_text5"></div>
+    <div id="weekday_text6"></div>
+    rating: <div id="rating"></div>
+    <hr>
+    reviews: 
+              <div id="reviews_pic1"></div>
+              <div id="reviews1"></div>
+              <div id="reviews2"></div>
+              <div id="reviews3"></div>
+              <div id="reviews4"></div>
+              <hr>
+              <div id="reviews_pic2"></div>
+              <div id="reviews5"></div>
+              <div id="reviews6"></div>
+              <div id="reviews7"></div>
+              <div id="reviews8"></div>
+              <hr>
+              <div id="reviews_pic3"></div>
+              <div id="reviews9"></div>
+              <div id="reviews10"></div>
+              <div id="reviews11"></div>
+              <div id="reviews12"></div>
+              <hr>
+              <div id="reviews_pic4"></div>
+              <div id="reviews13"></div>
+              <div id="reviews14"></div>
+              <div id="reviews15"></div>
+              <div id="reviews16"></div>
+              <hr>
+              <div id="reviews_pic5"></div>
+              <div id="reviews17"></div>
+              <div id="reviews18"></div>
+              <div id="reviews19"></div>
+              <div id="reviews20"></div>
+
+      url: <a id="url" href=""></a>
+      website: <a id="website" href=""></a>
+              
+
+  
+  
+  
+</body>
+</html>
+
+
+<!---
+
+var container=document.getElementById('pic');
+        var img = new Image();
+        img.onload=function()
+          {
+            container.innerHTML = '<img src="'+img.src+'"/><br>';
+             
+
+          };
+        img.src=array[0]; 
+
+--->

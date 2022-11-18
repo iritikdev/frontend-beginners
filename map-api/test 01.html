@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place Details</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      
+      #map {
+        height: 100%;
+      }
+      
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+      
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.866, lng: 151.196},
+          zoom: 15
+        });
+
+        var request = {
+          placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4',
+          fields: ['name', 'formatted_address', 'place_id', 'geometry','formatted_phone_number','international_phone_number','icon','photo','rating','website','opening_hours','price_level','review','address_component', 'adr_address', 'alt_id', 'id',  'permanently_closed', 'plus_code', 'scope', 'type', 'url', 'utc_offset', 'vicinity']
+        };
+
+        var infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+
+        service.getDetails(request, function(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.setContent('<img src="' + place.icon + '"/>'+'<div><strong>Name:' + place.name + '</strong><br>'  + '<br>Address:' +
+                place.formatted_address +'<br>Phone No:'+place.formatted_phone_number +'<br>International Phone no:'+place.international_phone_number +'<br>Rating:'+place.rating+'<br>website:'+place.website+'<br>Open:'+place.opening_hours.open_now+'<br>Place ID: ' + place.place_id+ '<br><img src="'+ place.photos[0].getUrl({'maxWidth': 80, 'maxHeight': 80})+'"/>'+'<img src="'+ place.photos[1].getUrl({'maxWidth': 80, 'maxHeight': 80})+'"/>'+'</div>');
+
+              infowindow.open(map, this);
+            });
+            //
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC78E6Ay8TlfUbezz7t8LHPfDMcGvkKVcg&libraries=places&callback=initMap">
+    </script>
+  </body>
+</html>

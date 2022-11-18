@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Distance Calculator</title>
+    <script type="text/javascript">
+    function findDistance()
+    {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(onSuccess,onError,{maximumAge:60*1000,timeout:5*60*1000,enableHighAccuracy:true});
+
+            
+        }
+        else
+        document.getElementById("result").innerHTML="YOur browser is not supported Geolocation."
+    }
+
+    function onSuccess(position) {
+        var latSource=position.coords.latitude;
+        var longSource=position.coords.longitude;
+        var addr=document.getElementById("destination").value;
+        var latlong= getLatLong(addr);
+
+        var latDest = latlong.latitude;
+        var longDest = latlong.longitude;
+        var dist= calculateDist(latSource, longSource, latDest, longDest);
+        document.getElementById("result").innerHTML="You are "+ dist+ "foots away from destination.";
+        
+    }
+
+    function calculateDist(latSource, longSource, latDest, longDest)
+    {
+            latSourceRadians = latSource*Math.PI/180;
+            longSourceRadians = longSource*Math.PI/180;
+            latDestRadians = latDest*Math.PI/180;
+            longDestRadians = longDest*Math.PI/180;
+            var distance = 3959 * Math.acos(
+            Math.cos(latSourceRadians) * Math.cos(latDestRadians) *
+            Math.cos(longSourceRadians - longDestRadians) +
+            Math.sin(latSourceRadians) * Math.sin(latDestRadians)
+            );
+            distance = (distance * 1.609344*1000*100)/30.48;
+            return distance;
+
+    }
+
+    function getLatLong(address)
+    {
+        var localAddress=address.replace(" ","+");
+        var xmlhttpAddr=new  XMLHttpRequest();
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?address="+localAddress+"&key=AIzaSyC78E6Ay8TlfUbezz7t8LHPfDMcGvkKVcg";
+        xmlhttpAddr.open("GET",url,false);
+        xmlhttpAddr.send();
+
+        if (xmlhttpAddr.readyState == 4 && xmlhttpAddr.status == 200)
+            {
+                var result = xmlhttpAddr.responseText;
+                var jsResult = eval("(" + result + ")");
+                var lat = jsResult.results[0].geometry.location.lat;
+                var long = jsResult.results[0].geometry.location.lng;
+                return {latitude:lat, longitude:long};
+
+            }
+    }
+
+    function onError(error)
+     {
+        switch(error.code)
+        {
+            case PERMISSION_DENIED:
+            alert("User denied permission");
+            break;
+            case TIMEOUT:
+            alert("Geolocation timed out");
+            break;
+            case POSITION_UNAVAILABLE:
+            alert("Geolocation information is not available");
+            break;
+            default:
+            alert("Unknown error");
+            break;
+        }
+    }
+    </script>
+</head>
+<body>
+    <fieldset style="width:500px;">
+        <legend><strong> between CURRENT LOCATION and your Destination</strong></legend>
+        Destination: <input type="text" id="destination"/><br>
+        <button id="btnCalculate" onclick="findDistance();">Find Distance</button><br>
+        <div id="result"></div>
+    </fieldset>
+    
+</body>
+</html>

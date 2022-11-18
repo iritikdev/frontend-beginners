@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTTP REQUEST AND RESPONSE</title>
+  <script type="text/javascript">
+    var HttpClient=function () {
+      this.get=function(aUrl, aCallback){
+        var anHttpRequest=new XMLHttpRequest();
+        anHttpRequest.onreadystatechange=function(){
+          if(anHttpRequest.readyState== 4 && anHttpRequest.status==200)
+            aCallback(anHttpRequest.responseText);
+        }
+
+        //anHttpRequest.open("GET",async, aUrl,true);
+        anHttpRequest.open("POST", aUrl ,'file:///E:/cors.html', async = true , username = null , password = null);
+        anHttpRequest.send({ 'request': "authentication token" });
+        anHttpRequest.setRequestHeader("Content-Type", "application/json");
+        anHttpRequest.withCredentials = true;
+        //anHttpRequest.send("null");
+      }
+    }
+    var theurl='https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyC78E6Ay8TlfUbezz7t8LHPfDMcGvkKVcg';
+    var client= new HttpClient();
+      client.get(theurl,function(response){
+        // var response1=new response;
+        // document.getElementById('detail').innerHTML=response1.candidates;
+        
+        var response1=JSON.parse(response);
+        //alert(response);
+        document.getElementById('Status').innerHTML=response1.status;       
+        document.getElementById('formatted_address').innerHTML=response1.candidates[0].formatted_address;
+        document.getElementById('name').innerHTML=response1.candidates[0].name;
+        document.getElementById('opening_hours').innerHTML=response1.candidates[0].opening_hours.open_now;
+        document.getElementById('Rating').innerHTML=response1.candidates[0].rating;
+        document.getElementById('photos_Height').innerHTML=response1.candidates[0].photos[0].height;
+        document.getElementById('photos_Width').innerHTML=response1.candidates[0].photos[0].width;
+        document.getElementById('html_attributions').innerHTML=response1.candidates[0].photos[0].html_attributions;
+        document.getElementById('photo_reference').innerHTML=response1.candidates[0].photos[0].photo_reference;
+        var x=response1.candidates[0].photos[0].photo_reference;
+        //console.log(x);
+        var y=response1.candidates[0].photos[0].html_attributions;
+        //console.log(y);
+        var z=response1.candidates[0].photos[0].width;
+        //console.log(z);
+        var a=innerHTML=response1.candidates[0].photos[0].height;
+        //console.log(a);
+
+        
+        var img = new Image();
+        var div = document.getElementById('pic');
+        img.onload=function(){
+          div.innerHTML += '<img src="'+img.src+'"/>';
+        };
+        img.src='https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + x +'&key=AIzaSyC78E6Ay8TlfUbezz7t8LHPfDMcGvkKVcg';
+        //document.getElementById("pic").innerHTML +=
+        
+      //console.log(url);
+        
+
+      });
+      
+
+
+  </script>
+</head>
+<body>
+  <div id="pic" >
+    
+    
+  </div>
+  Address: <div id="formatted_address"></div>
+  Business Name: <div id="name"></div>
+  Open Now: <div id="opening_hours"></div>
+  Status: <div id="Status"></div>
+  Rating: <div id="Rating"></div>
+  photos_Height: <div id="photos_Height"></div>
+  photos_Width: <div id="photos_Width"></div>
+  html_attributions: <div id="html_attributions"></div>
+  photo_reference: <div id="photo_reference"></div>
+  
+  
+</body>
+</html>

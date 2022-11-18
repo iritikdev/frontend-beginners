@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <style type="text/css">
+      .btn{
+        margin-top: 5px;
+      }
+      #mapArea{
+        width:100%;
+        height:500px;
+        margin-top: 20px;
+      }
+
+    </style>
+
+    <title>Find Around me</title>
+  </head>
+  <body>
+    <h2 class="display-3 text-center my-4">Find Around me!!!</h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+           <div class="dropdown">
+              <button class="btn btn-primary btn-block dropdown-toggle" type="button" data-toggle="dropdown">
+                  Select Your interest
+              </button>
+                  <div class="dropdown-menu">
+                      <option class="dropdown-item" value="atm">ATM</option>
+                      <option class="dropdown-item" value="bank">Bank</option>
+                      <option class="dropdown-item" value="airport">Airport</option>
+                      <option class="dropdown-item" value="cafe">Cafe</option>
+                      <option class="dropdown-item" value="jewelry_store">Jewelry store</option>
+                      <option class="dropdown-item" value="beauty_salon">Beauty Salon</option>
+                      <option class="dropdown-item" value="doctor">Doctor</option>
+                      <option class="dropdown-item" value="hospital">Hospital</option>
+                      <option class="dropdown-item" value="supermarket">Supermarket</option>
+                      <option class="dropdown-item" value="zoo">zoo</option>
+                      <option class="dropdown-item" value="train_station">Train station</option>
+                      <option class="dropdown-item" value="hindu_temple">Hindu temple</option>
+                  </div>
+          </div>
+       </div>
+
+    <div class="col-md-4">
+          <button class="btn btn-danger btn-block dropdown-toggle" type="button" data-toggle="dropdown">
+                Select radius!(m)
+          </button> 
+              <div class="dropdown-menu">
+                <option class="dropdown-item" value="500">500</option>
+                <option class="dropdown-item" value="1000">1000</option>
+                <option class="dropdown-item" value="2000">2000</option>
+                <option class="dropdown-item" value="2500">2500</option>
+                <option class="dropdown-item" value="3000">3000</option>
+              </div>             
+        </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="mapArea" class="border" ></div> 
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+          window.onload = function(){drawMap();};
+          function drawMap()
+          {
+              if (navigator.geolocation)
+                {
+                    navigator.geolocation.getCurrentPosition(onSuccess, onError,
+                    {maximumAge:60*1000, timeout:5*60*1000, enableHighAccuracy:true});
+                }
+              else
+                    alert("Your browser does not support HTML5 Geolocation!!!");
+          }
+
+
+
+          function onSuccess(position)
+          {
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
+            myLocation = new google.maps.LatLng(lat, long);
+            var mapOptions = {
+              center: myLocation,
+              zoom: 11,
+              mapTypeId:google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("mapArea"), mapOptions);
+          }
+
+
+          function onError(error)
+            {
+              switch(error.code)
+              {
+                case PERMISSION_DENIED:
+                alert("User denied permission");
+                break;
+                case TIMEOUT:
+                alert("Geolocation timed out");
+                break;
+                case POSITION_UNAVAILABLE:
+                alert("Geolocation information is not available");
+                break;
+                default:
+                alert("Unknown error");
+                break;
+              }
+            }
+
+    </script>
+    <!--=====================================JavaScript goes here!!!==========================================-->
+    <script src="http://maps.googleapis.com/maps/api/js?sensor=true&key=AIzaSyC78E6Ay8TlfUbezz7t8LHPfDMcGvkKVcg"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>
